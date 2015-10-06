@@ -11,29 +11,31 @@ var Game = React.createClass({
       tile.explore();
     }
 
-    if(this.state.activeBoard.won() || this.state.activeBoard.lost()){
+    if(this.state.activeBoard.lost()){
       this.state.activeBoard.revealAll();
-      this.setState({ over: true, won: this.state.activeBoard.won()})
+      this.setState({ over: true, won: false});
+    } else if (this.state.activeBoard.won()){
+      this.setState({ over: true, won: true});
     } else{
       this.forceUpdate();
     }
   },
 
   restartGame: function () {
-    this.setState({activeBoard: new Minesweeper.Board(10, 10), over: false, won: false});
+    this.setState(this.getInitialState());
   },
 
   render: function () {
-    var overMessage = this.state.won ? "Congrats, you won!" : "You are a huge loser";
+    var overMessage = this.state.won ? "Congrats, you won!" : "I am disappoint";
     return(
       <div>
         <Board board={this.state.activeBoard} updateGame={this.updateGame}/>
-        <div className={ this.state.over ? "notOver over" : "notOver" }>
-          <div>
-            {overMessage}
-            <br/>
-            <button onClick={this.restartGame}>Play again</button>
-          </div>
+        <div className={ this.state.over ? "not-over over" : "not-over" }>
+        </div>
+        <div className={this.state.over ? "over-message" : "hidden"}>
+          <span>{overMessage}</span>
+          <br/>
+          <button onClick={this.restartGame}>Play again</button>
         </div>
       </div>
     );

@@ -121,10 +121,10 @@
   Board.prototype.revealAll = function(){
     this.grid.forEach(function(row){
       row.forEach(function(tile){
-        tile.explored = true;
+        tile.explore();
       });
     });
-  }
+  };
 
   Board.prototype.won = function () {
     var won = true;
